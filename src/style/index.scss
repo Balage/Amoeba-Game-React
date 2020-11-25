@@ -1,0 +1,219 @@
+$fontMain: "Century Gothic", Futura, sans-serif;
+$imgRoot: "../images";
+$mobileMinDPI: 144dpi;
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 14px $fontMain;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    box-sizing: border-box;
+    background: #55362a url(#{$imgRoot}/desk-texture.webp);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+button, input, select {
+    outline: none;
+}
+
+.link-button {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    
+    &:hover, &:active {
+        color: #0000BB;
+        text-decoration: none;
+    }
+}
+
+.game-holder {
+    $padding: 20px;
+    
+    padding: 20px 20px 0 20px;
+    @media (min-width: 768px) {
+        padding: 40px 40px 0 40px;
+    }
+    
+    main.paper-page {		
+        background: white;
+        padding: $padding;
+        box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.75);
+        border-radius: 2px;
+        
+        %header {
+            $height: 26px;
+            
+            font: 26px $fontMain;
+            height: $height;
+            line-height: $height;
+            margin: 0 0 $padding 0;
+        }
+        
+        .header-normal {
+            @extend %header;
+            
+            .header-title {
+                float: left;
+            }
+            
+            button {
+                float: right;
+                font-size: 0.5em;
+                font-weight: 600;
+            }
+        }
+        
+        .header-winner {
+            @extend %header;
+            text-align: center;
+        }
+        
+        .board {
+            $grid-color: rgba(0, 0, 0, 0.2);
+            $shadow: 0 0 0 1px $grid-color;
+            
+            $hdpi-grid-color: rgba(0, 0, 0, 0.5);
+            $hdpi-shadow: 0 0 0 0.4px $hdpi-grid-color;
+            
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            background: white;
+            
+            box-shadow: $shadow;
+            @media (min-resolution: $mobileMinDPI) {
+                box-shadow: $hdpi-shadow;
+            }
+            
+            .board-row {
+                display: flex;
+                justify-content: space-around;
+                
+                button {
+                    position: relative;
+                    flex: 1 0 auto;
+                    height: auto;
+                    padding: 0;
+                    border: none;
+                    background: transparent;
+                    
+                    box-shadow: inset $shadow;
+                    @media (min-resolution: $mobileMinDPI) {
+                        box-shadow: inset $hdpi-shadow;
+                    }
+                    
+                    &.fill-x {
+                        background-image: url(#{$imgRoot}/board_x.svg);
+                        
+                        &.highlight {
+                            background-color: #ffe5e5;
+                        }
+                    }
+                    
+                    &.fill-o {
+                        background-image: url(#{$imgRoot}/board_o.svg);
+                        
+                        &.highlight {
+                            background-color: #e5e5ff;
+                        }
+                    }
+                    
+                    background-position: center center;
+                    background-size: 100% 100%;
+                    background-repeat: repeat;
+                    
+                    &:before {
+                        content: '';
+                        float: left;
+                        padding-top: 100%;
+                    }
+                    
+                    &:focus {
+                        outline: none;
+                    }
+                    
+                    %strike {
+                        $overscan: 6%;
+                        
+                        display: block;
+                        position: absolute;
+                        top: -$overscan;
+                        right: -$overscan;
+                        bottom: -$overscan;
+                        left: -$overscan;
+                        background-position: 0 0;
+                        background-size: 100% 100%;
+                        z-index: 1;
+                    }
+                    
+                    .strike-horizontal {
+                        @extend %strike;
+                        background-image: url(#{$imgRoot}/strike_straight.svg);
+                    }
+                    .strike-vertical {
+                        @extend %strike;
+                        background-image: url(#{$imgRoot}/strike_straight.svg);
+                        transform: rotate(90deg);
+                    }
+                    
+                    .strike-diag-left {
+                        @extend %strike;
+                        background-image: url(#{$imgRoot}/strike_diagonal.svg);
+                    }
+                    .strike-diag-right {
+                        @extend %strike;
+                        background-image: url(#{$imgRoot}/strike_diagonal.svg);
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+        }
+        
+        .footer-ai {
+            $height: 20px;
+            
+            height: $height;
+            line-height: $height;
+            margin: $padding 0 0 0;
+            text-align: right;
+            
+            label {
+                select {
+                    margin-left: 8px;
+                    height: $height;
+                }
+            }
+        }
+    }
+    
+    footer {
+        $height: 20px;
+        
+        height: $height;
+        line-height: $height;
+        padding: $padding $padding 0 $padding;
+        color: rgba(255, 255, 255, 0.5);
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+        text-align: center;
+        
+        a, a:link, a:visited, a:hover, a:active {
+            color: rgba(255, 255, 255, 0.5);
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+            text-decoration: underline;
+        }
+    }
+}
