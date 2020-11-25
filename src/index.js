@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Game from './Game';
+import WebApp from './WebApp';
 import './style/index.scss';
 
 ReactDOM.render(
-    <Game />,
+    <WebApp />,
     document.getElementById('root')
 );
