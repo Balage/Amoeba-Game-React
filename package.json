@@ -1,6 +1,6 @@
 {
   "name": "amoeba-game",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "http://work.vbstudio.hu/amoeba",
   "dependencies": {
@@ -11,6 +11,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

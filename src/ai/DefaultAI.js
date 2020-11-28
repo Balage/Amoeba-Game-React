@@ -1,4 +1,5 @@
-import { deepClone } from '../helpers/ArrayHelper'
+import { deepClone } from '../helpers/Utils'
+import { AiDifficulty } from './AiDifficulty';
 
 const PLAYER_HUMAN = 1;
 const PLAYER_AI = 2;
@@ -8,11 +9,13 @@ export default class DefaultAI {
     width = 0;
     height = 0;
     victoryCondition = 0;
+    difficulty;
     
-    constructor(width, height, victoryCondition) {
+    constructor(width, height, victoryCondition, difficulty) {
         this.width = width;
         this.height = height;
         this.victoryCondition = victoryCondition;
+        this.difficulty = difficulty;
     }
     
     // Get entire row (-) of squares intersecting the provided coordinates.
@@ -147,8 +150,11 @@ export default class DefaultAI {
                         let strike = this.countStrikeLength(cross[rowIndex].row, cross[rowIndex].index);
                         if (strike.length >= 3) {
                             importance += Math.pow(10, strike.length);
-                            if (strike.openSides === 2) {
-                                importance += Math.pow(10, strike.length + 1) / 2;
+                            
+                            if (this.difficulty >= AiDifficulty.Medium) {
+                                if (strike.openSides === 2) {
+                                    importance += Math.pow(10, strike.length + 1) / 2;
+                                }
                             }
                         }
                     }

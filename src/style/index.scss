@@ -1,4 +1,4 @@
-$fontMain: "Century Gothic", Futura, sans-serif;
+$fontMain: "Didact Gothic", "Century Gothic", Futura, sans-serif;
 $imgRoot: "../images";
 $mobileMinDPI: 144dpi;
 
@@ -21,6 +21,7 @@ body {
 }
 
 button, input, select {
+    font: 14px $fontMain;
     outline: none;
 }
 
@@ -54,40 +55,64 @@ button, input, select {
         box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.75);
         border-radius: 2px;
         
-        %header {
+        // HEADER
+        & {
             $height: 26px;
             
-            font: 26px $fontMain;
-            height: $height;
-            line-height: $height;
-            margin: 0 0 $padding 0;
-        }
-        
-        .header-normal {
-            @extend %header;
-            
-            .header-title {
-                float: left;
+            %header {
+                font: 26px $fontMain;
+                height: $height;
+                line-height: $height;
+                margin: 0 0 $padding 0;
             }
             
-            button {
-                float: right;
-                font-size: 0.5em;
-                font-weight: 600;
+            .header-normal {
+                @extend %header;
+                
+                .header-title {
+                    float: left;
+                }
+                
+                .restart-button {
+                    $size: 26px;
+                    $btn-padding: 6px;
+                    
+                    display: inline;
+                    width: $size;
+                    height: $size;
+                    margin: (($height - $size) / 2) 0;
+                    padding: 4px;
+                    float: right;
+                    background: transparent url(#{$imgRoot}/restart2.svg);
+                    background-size: ($size - $btn-padding * 2) ($size - $btn-padding * 2);
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    border: 1px solid hsl(0, 0, 25%);
+                    border-radius: $size / 3;
+                    cursor: pointer;
+                    filter: invert(0.25);
+                    
+                    &:hover, &:active {
+                        filter: invert(0.25);
+                    }
+                }
             }
-        }
-        
-        .header-winner {
-            @extend %header;
-            text-align: center;
+            
+            .header-winner {
+                @extend %header;
+                @media (max-width: 767px) {
+                    font: 20px $fontMain;
+                }
+                text-align: center;
+            }
         }
         
         .board {
-            $grid-color: rgba(0, 0, 0, 0.2);
+            $grid-color: hsl(0, 0, 75%);
             $shadow: 0 0 0 1px $grid-color;
             
-            $hdpi-grid-color: rgba(0, 0, 0, 0.5);
-            $hdpi-shadow: 0 0 0 0.4px $hdpi-grid-color;
+            $hdpi-grid-color: hsl(0, 0, 50%);
+            $hdpi-shadow: 0 0 0 0.5px $hdpi-grid-color;
             
             position: relative;
             width: 100%;
@@ -183,7 +208,7 @@ button, input, select {
             }
         }
         
-        .footer-ai {
+        .footer-bar {
             $height: 20px;
             
             height: $height;
@@ -191,10 +216,77 @@ button, input, select {
             margin: $padding 0 0 0;
             text-align: right;
             
-            label {
+            .language-selector {
+                float: left;
+                
+                label {
+                    $size: $height;
+                    $color-normal: hsl(0, 0, 75%);
+                    $color-selected: hsl(0, 0, 25%);
+                    
+                    display: block;
+                    position: relative;
+                    float: left;
+                    cursor: pointer;
+                    
+                    span {
+                        display: block;
+                        width: $size + 2;
+                        height: $size - 2;
+                        line-height: $size - 4;
+                        text-align: center;
+                        border: 1px solid $color-normal;
+                        color: $color-normal;
+                        border-radius: $size / 3;
+                        text-transform: uppercase;
+                        font-size: 12px;
+                        //font-weight: 600;
+                    }
+                    
+                    input:checked + span {
+                        border-color: $color-selected;
+                        color: $color-selected;
+                    }
+                    
+                    input {
+                        display: block;
+                        position: absolute;
+                        opacity: 0;
+                        width: 0;
+                        height: 0;
+                        pointer-events: none;
+                    }
+                }
+                
+                label:not(:last-child) {
+                    margin-right: 5px;
+                }
+            }
+            
+            label.ai-selector {
                 select {
-                    margin-left: 8px;
+                    $color: hsl(0, 0, 25%);
+                    
+                    position: relative;
                     height: $height;
+                    line-height: $height - 2px;
+                    vertical-align: bottom;
+                    appearance: none;
+                    margin-left: 8px;
+                    padding: 0 14px 0 4px;
+                    font-size: 14px;
+                    //font-weight: 600;
+                    color: $color;
+                    border: 1px solid $color;
+                    border-radius: $height / 3;
+                    background: white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='4' viewBox='0 0 10 4'><polygon fill='%23404040' points='0,0 6,0 3,4'/></svg>");
+                    background-position: right center;
+                    background-repeat: no-repeat;
+                    
+                    option {
+                        font-size: 14px;
+                        font-weight: normal;
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-import { deepClone } from '../helpers/ArrayHelper'
+import { deepClone } from '../helpers/Utils'
 
 export default class DummyAI {
     width = 0;

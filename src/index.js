@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import WebApp from './WebApp';
+import Game from './Game';
+import './style/font-didact-gothic.scss';
 import './style/index.scss';
 
 ReactDOM.render(
-    <WebApp />,
+    <Game />,
     document.getElementById('root')
 );

@@ -3,27 +3,31 @@ import React from 'react';
 import GameHeader from './GameHeader';
 import Board from './Board';
 
-import AiFactory from './AiFactory';
-import AiSelector from './AiSelector';
+import AiFactory from './ai/AiFactory';
+import FormSelect from './ui/FormSelect';
+
+import LanguageSelector from './LanguageSelector';
 
 import img_board_o from './images/board_o.svg';
 import img_board_x from './images/board_x.svg';
 import img_strike_diagonal from './images/strike_diagonal.svg';
 import img_strike_straight from './images/strike_straight.svg';
 
-import { deepClone } from './helpers/ArrayHelper'
+import Cookies from 'universal-cookie';
+import {deepClone, getUserLanguage} from './helpers/Utils'
+import {LanguageContext, languageStrings} from './LanguageContext'
 
 const BOARD_STATE = 0;
 const BOARD_STRIKE = 1;
 const BOARD_HIGHLIGHT = 2;
 
-const MARGIN_DESKTOP_TOP = 106;
-const MARGIN_DESKTOP_SIDE = 60;
-const MARGIN_DESKTOP_BOTTOM = 100 + 10;
+const MARGIN_DESKTOP_TOP = 40 + 20 + 26 + 20;
+const MARGIN_DESKTOP_SIDE = 40 + 20;
+const MARGIN_DESKTOP_BOTTOM = 20 * 5 + 10;
 
-const MARGIN_MOBILE_TOP = 86;
-const MARGIN_MOBILE_SIDE = 40;
-const MARGIN_MOBILE_BOTTOM = 100 + 10;
+const MARGIN_MOBILE_TOP = 20 + 20 + 26 + 20;
+const MARGIN_MOBILE_SIDE = 20 + 20;
+const MARGIN_MOBILE_BOTTOM = 20 * 5 + 10;
 
 const VICTORY_CONDITION = 5;
 
@@ -31,6 +35,9 @@ const PLAYER_ID_HUMAN = 1;
 const PLAYER_ID_CPU = 2;
 const PLAYER_ID_NEITHER = 3;
 
+const SUPPORTED_LANGUAGES = [ 'en', 'hu' ];
+
+const cookies = new Cookies();
 
 export default class Game extends React.Component {
     aiFactory;
@@ -38,9 +45,21 @@ export default class Game extends React.Component {
     constructor(props) {
         super(props);
         
+        // Set language
+        let language = cookies.get('language');
+        if (typeof language !== 'string' || !SUPPORTED_LANGUAGES.includes(language)) {
+            language = getUserLanguage(SUPPORTED_LANGUAGES);
+            this.saveLanguage(language);
+        }
+        
         this.aiFactory = new AiFactory();
         let boardSize = this.calculateBoardSize();
+        
         this.state = {
+            // UI
+            language: language,
+            languageStrings: languageStrings[language],
+            
             // Game board
             boardSize: boardSize,
             board: this.createBoard(boardSize.width, boardSize.height),
@@ -66,6 +85,10 @@ export default class Game extends React.Component {
         });
     }
     
+    saveLanguage(language) {
+        cookies.set('language', language, { path: process.env.PUBLIC_URL, maxAge: 365 * 24 * 60 * 60 });
+    }
+    
     resetGame() {
         let boardSize = this.calculateBoardSize();
         let aiIndex = this.state.aiSelectIndex;
@@ -87,7 +110,7 @@ export default class Game extends React.Component {
         let screenWidth = window.innerWidth;
         let screenHeight = window.innerHeight;
         let isMobile = screenWidth < 768;
-        let squareSize = isMobile ? 24 : 24;
+        let squareSize = 24;
         
         let boardWidth = screenWidth - (isMobile ? MARGIN_MOBILE_SIDE : MARGIN_DESKTOP_SIDE) * 2;
         let boardHeight = screenHeight - (isMobile ? (MARGIN_MOBILE_TOP + MARGIN_MOBILE_BOTTOM) : (MARGIN_DESKTOP_TOP + MARGIN_DESKTOP_BOTTOM));
@@ -97,8 +120,8 @@ export default class Game extends React.Component {
         let boardY = Math.floor(boardHeight / actualSquareSize);
         
         return {
-            width: Math.max(3, boardX),
-            height: Math.max(3, boardY)
+            width: Math.max(VICTORY_CONDITION, boardX),
+            height: Math.max(VICTORY_CONDITION, boardY)
         };
     }
     
@@ -310,23 +333,40 @@ export default class Game extends React.Component {
         return count;
     }
     
+    changeLanguage(language) {
+        this.saveLanguage(language);
+        this.setState({
+            language: language,
+            languageStrings: languageStrings[language]
+        });
+    }
+    
     render() {
         return (
-            <div className="game-holder">
-                <main className="paper-page">
-                    <GameHeader winner={this.state.winner} onResetClick={() => this.resetGame()} />
-                    <Board board={this.state.board} onClick={(x, y) => this.onClickBoard(x, y)} />
-                    <div className="footer-ai">
-                        <label>
-                            Opponent AI:
-                            <AiSelector options={this.state.aiSelectOptions} value={this.state.aiSelectIndex} onChange={(index) => this.changeAi(index)} />
-                        </label>
-                    </div>
-                </main>
-                <footer>
-                    Copyright 2020 Balázs Vecsey, <a href="https://vbstudio.hu/">vbstudio.hu</a>
-                </footer>
-            </div>
+            <LanguageContext.Provider value={this.state.languageStrings}>
+                <div className="game-holder">
+                    <main className="paper-page">
+                        <GameHeader winner={this.state.winner} onResetClick={() => this.resetGame()} />
+                        <Board board={this.state.board} onClick={(x, y) => this.onClickBoard(x, y)} />
+                        <div className="footer-bar">
+                            <LanguageSelector
+                                className='language-selector'
+                                languages={SUPPORTED_LANGUAGES}
+                                selected={this.state.language}
+                                onChange={(value) => this.changeLanguage(value)}
+                            />
+                            <FormSelect
+                                className="ai-selector"
+                                label={this.state.languageStrings.difficulty.label}
+                                options={this.state.aiSelectOptions}
+                                value={this.state.aiSelectIndex}
+                                onChange={(index) => this.changeAi(index)}
+                            />
+                        </div>
+                    </main>
+                    <footer>&copy; 2020 {this.state.languageStrings.author}, <a href="https://vbstudio.hu/">vbstudio.hu</a></footer>
+                </div>
+            </LanguageContext.Provider>
         );
     }
 }
