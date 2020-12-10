@@ -87,13 +87,15 @@ button, input, select {
                     background-size: ($size - $btn-padding * 2) ($size - $btn-padding * 2);
                     background-repeat: no-repeat;
                     background-position: center center;
-                    border: 1px solid hsl(0, 0, 25%);
+                    border: 1px solid black;
                     border-radius: $size / 3;
                     cursor: pointer;
-                    filter: invert(0.25);
+                    filter: invert(0.3);
                     
-                    &:hover, &:active {
-                        filter: invert(0.25);
+                    @media (pointer: fine) {
+                        &:hover, &:active {
+                            filter: invert(0);
+                        }
                     }
                 }
             }
@@ -221,8 +223,12 @@ button, input, select {
                 
                 label {
                     $size: $height;
+                    
                     $color-normal: hsl(0, 0, 75%);
-                    $color-selected: hsl(0, 0, 25%);
+                    $color-normal-hover: hsl(0, 0, 65%);
+                    
+                    $color-selected: hsl(0, 0, 30%);
+                    $color-selected-hover: black;
                     
                     display: block;
                     position: relative;
@@ -240,12 +246,23 @@ button, input, select {
                         border-radius: $size / 3;
                         text-transform: uppercase;
                         font-size: 12px;
-                        //font-weight: 600;
                     }
                     
                     input:checked + span {
                         border-color: $color-selected;
                         color: $color-selected;
+                    }
+                    
+                    @media (pointer: fine) {
+                        span:hover {
+                            border-color: $color-normal-hover;
+                            color: $color-normal-hover;
+                        }
+                        
+                        input:checked + span:hover {
+                            border-color: $color-selected-hover;
+                            color: $color-selected-hover;
+                        }
                     }
                     
                     input {
@@ -264,8 +281,11 @@ button, input, select {
             }
             
             label.ai-selector {
+                color: hsl(0, 0, 30%);
+                
                 select {
-                    $color: hsl(0, 0, 25%);
+                    $color-idle: hsl(0, 0, 30%);
+                    $color-hover: black;
                     
                     position: relative;
                     height: $height;
@@ -275,17 +295,24 @@ button, input, select {
                     margin-left: 8px;
                     padding: 0 14px 0 4px;
                     font-size: 14px;
-                    //font-weight: 600;
-                    color: $color;
-                    border: 1px solid $color;
+                    color: $color-idle;
+                    border: 1px solid $color-idle;
                     border-radius: $height / 3;
                     background: white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='4' viewBox='0 0 10 4'><polygon fill='%23404040' points='0,0 6,0 3,4'/></svg>");
                     background-position: right center;
                     background-repeat: no-repeat;
+                    cursor: pointer;
                     
                     option {
                         font-size: 14px;
                         font-weight: normal;
+                    }
+                    
+                    @media (pointer: fine) {
+                        &:hover {
+                            color: $color-hover;
+                            border-color: $color-hover;
+                        }
                     }
                 }
             }

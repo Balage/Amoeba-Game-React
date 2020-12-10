@@ -1,5 +1,4 @@
 import { AiDifficulty } from './AiDifficulty';
-import { LanguageContext } from '../LanguageContext'
 
 import DefaultAI from './DefaultAI';
 import LegacyAI from './LegacyAI';
@@ -10,11 +9,11 @@ export default class AiFactory {
     
     constructor() {
         this.aiList = [
-            //{ name: 'Hard', class: DefaultAI, difficulty: AiDifficulty.Hard },
-            { name: 'Medium', class: DefaultAI, difficulty: AiDifficulty.Medium },
-            { name: 'Easy', class: DefaultAI, difficulty: AiDifficulty.Easy },
+            //{ name: '#difficulty.hard', class: DefaultAI, difficulty: AiDifficulty.Hard },
+            { name: '#difficulty.medium', class: DefaultAI, difficulty: AiDifficulty.Medium },
+            { name: '#difficulty.easy', class: DefaultAI, difficulty: AiDifficulty.Easy },
             
-            { name: 'Legacy', class: LegacyAI },
+            //{ name: 'legacy', class: LegacyAI },
             //{ name: 'Dummy', class: DummyAI }
         ];
     }

@@ -4,7 +4,7 @@ import GameHeader from './GameHeader';
 import Board from './Board';
 
 import AiFactory from './ai/AiFactory';
-import FormSelect from './ui/FormSelect';
+import SelectControl from './ui/SelectControl';
 
 import LanguageSelector from './LanguageSelector';
 
@@ -86,7 +86,7 @@ export default class Game extends React.Component {
     }
     
     saveLanguage(language) {
-        cookies.set('language', language, { path: process.env.PUBLIC_URL, maxAge: 365 * 24 * 60 * 60 });
+        cookies.set('language', language, { path: process.env.PUBLIC_URL, sameSite: 'strict', maxAge: 365 * 24 * 60 * 60 });
     }
     
     resetGame() {
@@ -342,6 +342,8 @@ export default class Game extends React.Component {
     }
     
     render() {
+        document.title = this.state.languageStrings.title;
+        
         return (
             <LanguageContext.Provider value={this.state.languageStrings}>
                 <div className="game-holder">
@@ -355,7 +357,7 @@ export default class Game extends React.Component {
                                 selected={this.state.language}
                                 onChange={(value) => this.changeLanguage(value)}
                             />
-                            <FormSelect
+                            <SelectControl
                                 className="ai-selector"
                                 label={this.state.languageStrings.difficulty.label}
                                 options={this.state.aiSelectOptions}

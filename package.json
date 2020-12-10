@@ -2,7 +2,7 @@
   "name": "amoeba-game",
   "version": "1.0.0",
   "private": true,
-  "homepage": "http://work.vbstudio.hu/amoeba",
+  "homepage": "https://vbstudio.hu/games/amoeba",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.1",
