@@ -13,9 +13,9 @@ import img_board_x from './images/board_x.svg';
 import img_strike_diagonal from './images/strike_diagonal.svg';
 import img_strike_straight from './images/strike_straight.svg';
 
-import Cookies from 'universal-cookie';
-import {deepClone, getUserLanguage} from './helpers/Utils'
-import {LanguageContext, languageStrings} from './LanguageContext'
+import { deepClone } from './helpers/Utils'
+import { getLanguage, setLanguage } from './helpers/ConfigHelper'
+import { LanguageContext, languageStrings } from './LanguageContext'
 
 const BOARD_STATE = 0;
 const BOARD_STRIKE = 1;
@@ -37,22 +37,15 @@ const PLAYER_ID_NEITHER = 3;
 
 const SUPPORTED_LANGUAGES = [ 'en', 'hu' ];
 
-const cookies = new Cookies();
-
 export default class Game extends React.Component {
     aiFactory;
     
     constructor(props) {
         super(props);
         
-        // Set language
-        let language = cookies.get('language');
-        if (typeof language !== 'string' || !SUPPORTED_LANGUAGES.includes(language)) {
-            language = getUserLanguage(SUPPORTED_LANGUAGES);
-            this.saveLanguage(language);
-        }
-        
         this.aiFactory = new AiFactory();
+        
+        let language = getLanguage(SUPPORTED_LANGUAGES);
         let boardSize = this.calculateBoardSize();
         
         this.state = {
@@ -83,10 +76,6 @@ export default class Game extends React.Component {
         imageList.forEach((image) => {
             new Image().src = image
         });
-    }
-    
-    saveLanguage(language) {
-        cookies.set('language', language, { path: process.env.PUBLIC_URL, sameSite: 'strict', maxAge: 365 * 24 * 60 * 60 });
     }
     
     resetGame() {
@@ -334,7 +323,7 @@ export default class Game extends React.Component {
     }
     
     changeLanguage(language) {
-        this.saveLanguage(language);
+        setLanguage(language);
         this.setState({
             language: language,
             languageStrings: languageStrings[language]
