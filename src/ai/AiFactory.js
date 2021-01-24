@@ -1,8 +1,6 @@
 import { AiDifficulty } from './AiDifficulty';
 
 import DefaultAI from './DefaultAI';
-import LegacyAI from './LegacyAI';
-import DummyAI from './DummyAI';
 
 export default class AiFactory {
     aiList = [];
