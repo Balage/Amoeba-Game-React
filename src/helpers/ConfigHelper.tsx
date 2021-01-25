@@ -1,14 +1,14 @@
-function getLocalStorageName(name) {
+function getLocalStorageName(name: string): string {
     return `game.amoeba.${name}`;
 }
 
 //
 // LANGUAGE
 //
-function getUserLanguageFromBrowser(supported) {
+function getUserLanguageFromBrowser(supported: string[]): string {
     if (typeof navigator !== 'undefined') {
         if (typeof navigator.language !== 'undefined') {
-            let userLanguage = ('' + navigator.language).split('-')[0].toLowerCase();
+            const userLanguage = navigator.language.split('-')[0].toLowerCase();
             if (supported.includes(userLanguage)) {
                 return userLanguage;
             }
@@ -17,15 +17,15 @@ function getUserLanguageFromBrowser(supported) {
     return supported[0];
 }
 
-export function getLanguage(supportedLanguages) {
+export function loadLanguage(supportedLanguages: string[]) {
     let language = localStorage.getItem(getLocalStorageName('language'));
-    if (typeof language !== 'string' || !supportedLanguages.includes(language)) {
+    if (language === null || !supportedLanguages.includes(language)) {
         language = getUserLanguageFromBrowser(supportedLanguages);
-        setLanguage(language);
+        saveLanguage(language);
     }
     return language;
 }
 
-export function setLanguage(language) {
+export function saveLanguage(language: string): void {
     localStorage.setItem(getLocalStorageName('language'), language);
 }

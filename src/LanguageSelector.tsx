@@ -1,6 +1,9 @@
-import React from 'react';
-
-export default function LanguageSelector(props) {
+export default function LanguageSelector(props: {
+    languages: string[],
+    selected: string,
+    onChange: (newLanguageCode: string) => void,
+    className: string,
+}): JSX.Element {
     return (
         <div className={props.className}>
             {props.languages.map((item) =>
