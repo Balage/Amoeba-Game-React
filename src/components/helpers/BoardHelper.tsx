@@ -6,6 +6,22 @@ export type BoardSquareType = {
 
 export type BoardType = BoardSquareType[][];
 
+export function createEmptyBoard(size: {width: number, height: number}): BoardType {
+    let board: BoardType = new Array<BoardSquareType[]>();
+    for (let y = 0; y < size.height; y++) {
+        let row = new Array<BoardSquareType>();
+        for (let x = 0; x < size.width; x++) {
+            row.push({
+                state: 0,
+                strike: 0,
+                highlight: false
+            });
+        }
+        board.push(row);
+    }
+    return board;
+}
+
 export function cloneBoard(board: BoardType): BoardType {
     return board.map(row => row.map(item => ({
         state: item.state,
@@ -23,8 +39,9 @@ export function foreachBoard(
     callback: (item: BoardSquareType, x: number, y: number) => void
 ): void {
     for (let y = 0; y < board.length; y++) {
-        for (let x = 0; x < board[y].length; x++) {
-            callback(board[y][x], x, y);
+        const row = board[y];
+        for (let x = 0; x < row.length; x++) {
+            callback(row[x], x, y);
         }
     }
 }

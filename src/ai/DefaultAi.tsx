@@ -228,6 +228,19 @@ function aiRandomExpansion(board: number[][]): {x: number, y: number} | null {
 }
 
 export default function DefaultAi(board: number[][], victoryCondition: number, difficulty: number): {x: number, y: number} | null {
+    const startTime = performance.now();
+    const result = DefaultAiCall(board, victoryCondition, difficulty);
+    const deltaTime = performance.now() - startTime;
+    
+    if (result === null) {
+        console.error('AI: No available moves found!');
+    } else {
+        console.log(`AI: ${result.log} (${deltaTime} ms)`);
+    }
+    return result;
+}
+
+function DefaultAiCall(board: number[][], victoryCondition: number, difficulty: number): {log: string, x: number, y: number} | null {
     // Possible moves by AI
     const attackList = getPossibleMoves(board, victoryCondition, difficulty, PLAYER_AI);
         
@@ -235,10 +248,10 @@ export default function DefaultAi(board: number[][], victoryCondition: number, d
     for (let i = 0; i < attackList.length; i++) {
         const move = attackList[i];
         if (move.importance >= 100000) {
-            console.log(`AI Quick Attack [${move.x}; ${move.y}]`);
             return {
+                log: `Quick Attack.`,
                 x: move.x,
-                y: move.y
+                y: move.y,
             };
         }
     }
@@ -255,14 +268,13 @@ export default function DefaultAi(board: number[][], victoryCondition: number, d
         const movesList = attackList.filter(item => item.importance === mostImportantAttack);
         const move = getRandomItem(movesList);
         if (move === null) {
-            console.error('No available moves found!');
             return null;
         }
         
-        console.log(`AI Attack [${move.x}; ${move.y}], score: ${move.importance}, chosen from ${movesList.length} moves`);
         return {
+            log: `Attack. Score: ${move.importance}, chosen from ${movesList.length} moves.`,
             x: move.x,
-            y: move.y
+            y: move.y,
         };
         
     } else if (mostImportantDefense > 0) {
@@ -270,23 +282,24 @@ export default function DefaultAi(board: number[][], victoryCondition: number, d
         const movesList = defendList.filter(item => item.importance === mostImportantDefense);
         const move = getRandomItem(movesList);
         if (move === null) {
-            console.error('No available moves found!');
             return null;
         }
         
-        console.log(`AI Defend [${move.x}; ${move.y}], score: ${move.importance}, chosen from ${movesList.length} moves`);
         return {
+            log: `Defend. Score: ${move.importance}, chosen from ${movesList.length} moves.`,
             x: move.x,
-            y: move.y
+            y: move.y,
         };
     }
     
     // Random
     const randomMove = aiRandomExpansion(board);
     if (randomMove === null) {
-        console.error('No available moves found!');
         return null;
     }
-    console.log(`AI Random [${randomMove.x}; ${randomMove.y}]`);
-    return randomMove;
+    return {
+        log: `Random.`,
+        x: randomMove.x,
+        y: randomMove.y,
+    };
 }

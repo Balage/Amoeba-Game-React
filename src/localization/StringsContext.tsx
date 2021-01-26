@@ -1,26 +1,7 @@
 import React from 'react';
+import { StringTables } from './StringTableTypes';
 
-export type StringTable = {
-    title: string,
-    result: {
-        won: string,
-        lose: string,
-        draw: string,
-        newGame: string,
-    },
-    difficulty: {
-        label: string,
-        hard: string,
-        medium: string,
-        easy: string,
-    },
-    author: string,
-};
-
-export type StringTables = {
-    en: StringTable,
-    [key: string]: StringTable
-}
+export const SUPPORTED_LANGUAGES: string[] = [ 'en', 'hu' ];
 
 export const LANGUAGE_STRING_TABLES: StringTables = {
     en: {
@@ -57,4 +38,4 @@ export const LANGUAGE_STRING_TABLES: StringTables = {
     },
 };
 
-export const LanguageContext = React.createContext(LANGUAGE_STRING_TABLES.en);
+export const StringsContext = React.createContext(LANGUAGE_STRING_TABLES.en);

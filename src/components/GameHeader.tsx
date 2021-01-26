@@ -1,5 +1,6 @@
 import React from 'react';
-import { StringTable, LanguageContext } from './LanguageContext'
+import { StringTable } from '../localization/StringTableTypes';
+import { StringsContext } from '../localization/StringsContext';
 
 function GetVictoryText(strings: StringTable, winner: number): string {
     switch (winner) {
@@ -14,7 +15,7 @@ export default function GameHeader(props: {
     onResetClick: () => void
 }): JSX.Element
 {
-    const strings = React.useContext(LanguageContext);
+    const strings = React.useContext(StringsContext);
     
     if (props.winner === 0) {
         return (

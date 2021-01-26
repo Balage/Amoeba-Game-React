@@ -1,5 +1,5 @@
 import React from 'react';
-import { BoardSquareType } from './BoardHelper';
+import { BoardType } from './helpers/BoardHelper';
 
 const BOARD_STRIKE_CLASS = [
     '',
@@ -23,7 +23,7 @@ const BOARD_MARK_CLASS = [
 ];
 
 export default function Board(props: {
-    board: BoardSquareType[][],
+    board: BoardType,
     onClick: (x: number, y: number) => void
 }): JSX.Element {
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Game from './Game';
+import Game from './components/Game';
 import './style/font-didact-gothic.scss';
 import './style/index.scss';
 

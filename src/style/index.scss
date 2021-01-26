@@ -49,7 +49,7 @@ button, input, select {
         padding: 40px 40px 0 40px;
     }
     
-    main.paper-page {		
+    main.paper-page {
         background: white;
         padding: $padding;
         box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.75);
@@ -83,7 +83,7 @@ button, input, select {
                     margin: (($height - $size) / 2) 0;
                     padding: 4px;
                     float: right;
-                    background: transparent url(#{$imgRoot}/restart2.svg);
+                    background: transparent url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M347 17c-16-6-35 2-41 18c-6 17 2 35 18 41C398 105 448 177 448 256c0 106-86 192-192 192C150 448 64 362 64 256c0-54 23-104 61-140l55 55C184 174 188 176 192 176c2 0 4-0 6-1C204 172 208 166 208 160V16c0-9-7-16-16-16H48C42 0 36 4 33 10c-2 6-1 13 3 17l43 43C30 118 0 185 0 256c0 141 115 256 256 256s256-115 256-256C512 151 446 55 347 17z'/></svg>");
                     background-size: ($size - $btn-padding * 2) ($size - $btn-padding * 2);
                     background-repeat: no-repeat;
                     background-position: center center;
@@ -144,7 +144,7 @@ button, input, select {
                     }
                     
                     &.fill-x {
-                        background-image: url(#{$imgRoot}/board_x.svg);
+                        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23BB0000' d='M301 256l137-137c12-12 12-33 0-45c-12-12-33-12-45 0L256 211L119 73c-12-12-33-12-45 0c-12 12-12 33 0 45L211 256l-137 137c-12 12-12 33 0 45C80 445 88 448 96 448s16-3 23-9L256 301l137 137C400 445 408 448 416 448s16-3 23-9c12-12 12-33 0-45L301 256z'/></svg>");
                         
                         &.highlight {
                             background-color: #ffe5e5;
@@ -152,7 +152,7 @@ button, input, select {
                     }
                     
                     &.fill-o {
-                        background-image: url(#{$imgRoot}/board_o.svg);
+                        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%230000BB' d='M256 64C150 64 64 150 64 256s86 192 192 192s192-86 192-192S362 64 256 64zM256 384c-71 0-128-57-128-128c0-71 57-128 128-128s128 57 128 128C384 327 327 384 256 384z'/></svg>");
                         
                         &.highlight {
                             background-color: #e5e5ff;
@@ -187,23 +187,31 @@ button, input, select {
                         z-index: 1;
                     }
                     
+                    %strike-straight {
+                        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M0 224L512 224 512 288 0 288zM480 288H32c-18 0-32-14-32-32s14-32 32-32h448c18 0 32 14 32 32S498 288 480 288z'/></svg>");
+                    }
+                    
+                    %strike-diagonal {
+                        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path d='M480 512c-8 0-16-3-23-9l-448-448c-12-12-12-33 0-45c12-12 33-12 45 0l448 448c12 12 12 33 0 45C496 509 488 512 480 512z'/></svg>");
+                    }
+                    
                     .strike-horizontal {
                         @extend %strike;
-                        background-image: url(#{$imgRoot}/strike_straight.svg);
+                        @extend %strike-straight;
                     }
                     .strike-vertical {
                         @extend %strike;
-                        background-image: url(#{$imgRoot}/strike_straight.svg);
+                        @extend %strike-straight;
                         transform: rotate(90deg);
                     }
                     
                     .strike-diag-left {
                         @extend %strike;
-                        background-image: url(#{$imgRoot}/strike_diagonal.svg);
+                        @extend %strike-diagonal;
                     }
                     .strike-diag-right {
                         @extend %strike;
-                        background-image: url(#{$imgRoot}/strike_diagonal.svg);
+                        @extend %strike-diagonal;
                         transform: rotate(90deg);
                     }
                 }
