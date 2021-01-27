@@ -30,8 +30,18 @@ export function cloneBoard(board: BoardType): BoardType {
     })));
 }
 
+// Clones board with only the state values.
+// Adds one layer of padding with -1 values.
 export function cloneBoardState(board: BoardType): number[][] {
-    return board.map((row) => row.map((item) => item.state));
+    let cols = board.map(oldRow => {
+        const row = oldRow.map(cell => cell.state);
+        row.unshift(-1);
+        row.push(-1);
+        return row;
+    });
+    cols.unshift(new Array(board[0].length + 2).fill(-1));
+    cols.push(new Array(board[0].length + 2).fill(-1));
+    return cols;
 }
 
 export function foreachBoard(

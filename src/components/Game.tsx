@@ -39,7 +39,7 @@ enum PlayerId {
     Unset = 0,
     Human = 1,
     CPU = 2,
-    Neither = 2,
+    Neither = 3,
 };
 
 function CalculateBoardSize(): { width: number, height: number } {
@@ -128,7 +128,9 @@ export default function Game(): JSX.Element {
         }
         
         // Let the enemy move
-        const enemyMove = DefaultAi(cloneBoardState(boardCopy), VICTORY_CONDITION, difficulty);
+        const aiBoard = cloneBoardState(boardCopy);
+        //console.log(boardCopy, aiBoard);
+        const enemyMove = DefaultAi(aiBoard, VICTORY_CONDITION, difficulty);
         if (enemyMove != null &&
             isValidBoardIndex(enemyMove.x, enemyMove.y) &&
             boardCopy[enemyMove.y][enemyMove.x].state === 0)
